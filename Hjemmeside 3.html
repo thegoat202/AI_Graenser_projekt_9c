@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI og Grænser - Et Fremtidsstudie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f1c2c;
+            color: #e0e7f1;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        header {
+            background: #1b2a3e;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            color: #a3b8d1;
+        }
+        .login-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .login-container input {
+            padding: 8px 12px;
+            background: #263554;
+            border: 1px solid #3d5e8c;
+            border-radius: 4px;
+            color: #e0e7f1;
+            font-size: 0.9em;
+            transition: border-color 0.3s ease;
+        }
+        .login-container input:focus {
+            border-color: #4a6fa5;
+            outline: none;
+        }
+        .login-container button {
+            background: #4a6fa5;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            color: #e0e7f1;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .login-container button:hover {
+            background: #5e8bc7;
+        }
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.8em;
+            margin-top: 5px;
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+        .logout-btn {
+            background: #4a6fa5;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            color: #e0e7f1;
+            cursor: pointer;
+            margin-top: 10px;
+            display: none;
+            transition: background 0.3s ease;
+        }
+        .logout-btn:hover {
+            background: #5e8bc7;
+        }
+        nav {
+            background: #1b2a3e;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        nav ul li {
+            margin: 5px 0;
+        }
+        nav ul li a {
+            color: #a3b8d1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #e0e7f1;
+        }
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            margin: 20px auto;
+            display: none; /* Indhold skjult indtil login */
+        }
+        section {
+            background: #1e2e44;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        section:hover {
+            transform: translateY(-2px);
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #e0e7f1;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #4a6fa5;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #a3b8d1;
+            margin-bottom: 10px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #a3b8d1;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1em;
+            color: #b0c4de;
+            margin-bottom: 15px;
+        }
+        ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+        ul li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            font-size: 1em;
+            color: #b0c4de;
+        }
+        ul li:before {
+            content: "→";
+            color: #4a6fa5;
+            position: absolute;
+            left: 0;
+        }
+        .logbog-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            margin-top: 15px;
+        }
+        .logbog-table th, .logbog-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #3d5e8c;
+        }
+        .logbog-table th {
+            background: #3d5e8c;
+            color: #e0e7f1;
+            font-weight: 600;
+        }
+        .logbog-table td {
+            background: #263554;
+        }
+        .begrundelse-content {
+            text-align: center;
+        }
+        .begrundelse-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+            background: #1b2a3e;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #a3b8d1;
+            border-top: 1px solid #2d4063;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            .login-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .login-container input, .login-container button {
+                width: 80%;
+                max-width: 200px;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI og Grænser</h1>
+        <div id="loginContainer" class="login-container">
+            <input type="text" id="username" placeholder="Brugernavn" autocomplete="off">
+            <input type="password" id="password" placeholder="Adgangskode">
+            <button onclick="login()">Log ind</button>
+            <p id="errorMessage" class="error-message">Forkert brugernavn eller adgangskode!</p>
+        </div>
+        <button id="logoutBtn" class="logout-btn" onclick="logout()">Log ud</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#indledning">Indledning</a></li>
+            <li><a href="#problemstilling">Problemstilling</a></li>
+            <li><a href="#begrundelse">Emnebegrundelse</a></li>
+            <li><a href="#sporgsmaal">Arbejdspørgsmål</a></li>
+            <li><a href="#konsekvenser">Konsekvenser</a></li>
+            <li><a href="#produkt">Produkt</a></li>
+            <li><a href="#konklusion">Konklusion</a></li>
+            <li><a href="#logbog">Logbog</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="mainContent">
+        <section id="indledning">
+            <h2>Indledning</h2>
+            <h3>Emne: Grænser</h3>
+            <h4>Under Emne: Ai og grænser</h4>
+            <p>I 2025 bruger AI mere data om os end nogensinde- men hvor går grænsen?<br>
+            Kilder: <a href="https://youtu.be/Xy4qf2MJViY">https://youtu.be/Xy4qf2MJViY</a><br>
+            Kilder: <a href="https://youtu.be/aS_9dD1g4ug">https://youtu.be/aS_9dD1g4ug</a></p>
+        </section>
+
+        <section id="problemstilling">
+            <h2>Problemstilling</h2>
+            <p>Jeg vil undersøge, hvordan AI i fremtiden vil påvirke adgangen til og brugen af vores personlige oplysninger, og hvilken grænse der burde sættes for, hvad AI bør vide om vores private liv.</p>
+        </section>
+
+        <section id="begrundelse">
+            <h2>Emnebegrundelse</h2>
+            <div class="begrundelse-content">
+                <p>Grunden til, at jeg har valgt mit emne omkring AI, er, at da den første version af ChatGPT-3.5 kom ud 30. november 2022 kl. 19, prøvede jeg den – ligesom tusindvis af andre. De første timer sad jeg og legede med den og fandt ud af, hvor hurtig den var til at finde ting. Jeg var helt solgt. Min far kom hjem fra et møde og spurgte, hvad jeg lavede. Jeg forklarede, at jeg brugte ChatGPT, og han blev nysgerrig. Han prøvede at skrive en jobansøgning med den, og den gjorde det hurtigere, end han var vant til. Siden da har AI været den bedste sparringspartner, jeg kunne ønske mig, og det har givet mig lyst til at bygge en virksomhed med AI her i 2025. Derfor valgte jeg emnet "AI og grænser".</p>
+                <img src="480455304_1346326426818654_2770495290093505900_n.jpg" alt="Rasmus" loading="lazy">
+            </div>
+        </section>
+
+        <section id="sporgsmaal">
+            <h2>Arbejdspørgsmål</h2>
+            <p>Følgende arbejdspørgsmål er en skriftlig udtagelse fra Anders Bæk:</p>
+            <ul>
+                <li>Hvornår bør AI have adgang til personlige oplysninger, og hvem bestemmer det.</li>
+                <li>Hvor går grænsen for, hvad AI burde vide om os.</li>
+                <li>Kommer AI til at have en virkning på menneskehedens personlige grænser.</li>
+                <li>Kan vi stole på, at virksomheder og myndigheder bruger AI ansvarligt i forhold til personlige oplysninger.</li>
+                <li>Hvordan kan AI påvirke menneskers personlige grænser i den kommende fremtid?</li>
+            </ul>
+        </section>
+
+        <section id="konsekvenser">
+            <h2>Konsekvenser ved AI og Grænser</h2>
+            <p>Jeg kunne godt være lidt nervøs i forhold til AI i fremtiden. Det, der gør mig urolig, er vores personlige oplysninger og hvordan virksomheder som Amazon i 2025 bruger AI til at spore, hvad vi kigger på, når vi shopper online, og kombinerer det med data fra X og vores telefoner for at lave detaljerede profiler (<a href="#">Forbes: How AI Is Revolutionizing E-Commerce, dec. 2024</a>). Det skræmmer mig lidt, når jeg har set annoncer dukke op – fx for en rejse, jeg kun tænkte på – så præcist, at det føles, som om AI læser mine tanker, især når teknologien kan gætte mine behov, før jeg selv ved det (<a href="#">The New York Times, jan. 2025</a>). Men ellers ser jeg ikke de store negative konsekvenser ved AI. Tværtimod giver det mig håb, at AI kan hjælpe folk med kræft ved at finde sygdommen 11% mere præcist i billeder og lave behandlinger baseret på DNA, så flere liv reddes (<a href="#">Nature Medicine: AI-Powered Cancer Detection: A 2025 Update, feb. 2025</a>). Virksomheder, der ikke bruger AI til dette, halter efter i forhold til dem, der gør behandlingen bedre (<a href="#">MIT Technology Review, marts 2025</a>). Men med regeringer bliver jeg bekymret igen – fx i USA under Trump, hvor AI kan bruge data om millioner fra X til at lave deepfakes eller målrette vælgere for at vinde stemmer uden respekt for privatliv. Det får mig til at tænke, at magthavere kan styre os med AI, hvis vi ikke sætter klare grænser (<a href="#">The Atlantic, marts 2025</a>).</p>
+        </section>
+
+        <section id="produkt">
+            <h2>Produktbeskrivelse</h2>
+            <p>Det produkt, jeg har valgt at lave, er denne hjemmeside, som jeg har kodet i HTML med et indbygget login-panel. Hjemmesiden kræver, at man logger ind med et brugernavn og en adgangskode, før man kan se mit projekt. Formålet er at præsentere mit arbejde om AI og grænser, og login-funktionen sikrer, at kun udvalgte personer får adgang.</p>
+        </section>
+
+        <section id="konklusion">
+            <h2>Konklusion</h2>
+            <p>Efter at have arbejdet med emnet "Grænser" og underemnet "AI og Grænser" i 2025 kan jeg se, at kunstig intelligens både har gode sider og udfordringer. AI kan gøre livet bedre – fx når læger bruger det til at redde liv – men det udfordrer også vores privatliv, når virksomheder sporer os online og tilpasser annoncer. Det gør mig lidt nervøs, at grænserne for, hvad AI ved om os mennesker, bliver mere og mere udviskede. Jeg tror, AI bør have adgang til vores data, når det hjælper os, som med sundhed, men det skal være os selv eller nogen, vi stoler på, der bestemmer, hvornår det er okay – ikke bare virksomheder eller regeringer som i USA eller andre lande, hvor data kan misbruges til magt. Hvor grænsen præcist skal gå, er svært at sige, men jeg mener, den skal sættes dér, hvor vi stadig har kontrol over vores eget privatliv – hvor AI ikke ved mere om os, end vi selv vil dele. Ellers risikerer vi et samfund, hvor personlige grænser forsvinder, og vi bliver styret uden at opdage det. Jeg tvivler på, at vi fuldt ud kan stole på virksomheder eller myndigheder til at bruge AI ansvarligt, medmindre der kommer stærke internationale regler og værktøjer, så vi kan tage magten tilbage over vores data. For mig, der blev fanget af AI med ChatGPT i 2022, er det både spændende og lidt skræmmende at tænke på, hvordan det her vil forme fremtiden – men jeg håber, vi finder en balance, hvor AI hjælper os uden at tage over.</p>
+        </section>
+
+        <section id="logbog">
+            <h2>Logbog: 10.-14. Marts 2025</h2>
+            <table class="logbog-table">
+                <tr>
+                    <th>Dato</th>
+                    <th>Lavede</th>
+                    <th>Tid</th>
+                </tr>
+                <tr>
+                    <td>10. marts</td>
+                    <td>Planlagde projektet</td>
+                    <td>2 timer</td>
+                </tr>
+                <tr>
+                    <td>11. marts</td>
+                    <td>Lavede design</td>
+                    <td>3 timer</td>
+                </tr>
+                <tr>
+                    <td>12. marts</td>
+                    <td>Kodede siden</td>
+                    <td>4 timer</td>
+                </tr>
+                <tr>
+                    <td>13. marts</td>
+                    <td>Tilføjede indhold</td>
+                    <td>3 timer</td>
+                </tr>
+                <tr>
+                    <td>14. marts</td>
+                    <td>Færdiggjorde projekt</td>
+                    <td>2 timer</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Rasmus | Projekt uge 10-14 Marts</p>
+    </footer>
+
+    <script>
+        // Gyldige brugere
+        const validUser1 = { username: "Klaus2025", password: "Stormarkskolen2025" };
+        const validUser2 = { username: "Natasja2025", password: "Stormarkskolen1999" };
+        const validUser3 = { username: "Rasmus200409", password: "Kobenhavn4900" };
+        const validUser4 = { username: "Peter190379", password: "190379" };
+
+        const loginContainer = document.getElementById("loginContainer");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const mainContent = document.getElementById("mainContent");
+        const errorMessage = document.getElementById("errorMessage");
+
+        // Skjul indhold og logout-knap ved start
+        mainContent.style.display = "none";
+        logoutBtn.style.display = "none";
+
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if ((username === validUser1.username && password === validUser1.password) ||
+                (username === validUser2.username && password === validUser2.password) ||
+                (username === validUser3.username && password === validUser3.password) ||
+                (username === validUser4.username && password === validUser4.password)) {
+                loginContainer.style.display = "none";
+                logoutBtn.style.display = "block";
+                mainContent.style.display = "block";
+                errorMessage.style.display = "none";
+                if (username === "Klaus2025") {
+                    alert("Velkommen Klaus til Rasmus' fremlæggelse 17. marts KL 8:25 2025");
+                } else if (username === "Natasja2025") {
+                    alert("Velkommen Natasja til Rasmus' fremlæggelse 17. marts KL 8:25 2025");
+                } else if (username === "Rasmus200409") {
+                    alert("Velkommen Rasmus til Rasmus' fremlæggelse 17. marts 2025");
+                } else if (username === "Peter190379") {
+                    alert("Velkommen Peter til Rasmus' fremlæggelse 17. marts 2025");
+                }
+            } else {
+                errorMessage.style.display = "block";
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+            }
+        }
+
+        function logout() {
+            loginContainer.style.display = "flex";
+            logoutBtn.style.display = "none";
+            mainContent.style.display = "none";
+            errorMessage.style.display = "none";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                login();
+            }
+        });
+    </script>
+</body>
+</html>
